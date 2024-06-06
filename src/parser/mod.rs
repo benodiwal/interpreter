@@ -1,4 +1,4 @@
-use crate::{ast::{Identifier, LetStatement, Program, Statement}, Lexer, Token, TokenType, EOF, IDENT, LET, SEMICOLON};
+use crate::{ast::{Identifier, LetStatement, Program, Statement}, Lexer, Token, TokenType, ASSIGN, EOF, IDENT, LET, SEMICOLON};
 
 pub struct Parser<'a> {
     l: &'a mut Lexer,
@@ -70,7 +70,11 @@ impl<'a> Parser<'a> {
             value: cur_token.Literal,
         });
 
-        if !self.expect_peek(SEMICOLON.to_string()) {
+        if !self.expect_peek(ASSIGN.to_string()) {
+            return None;
+        }
+
+        while !self.expect_peek(SEMICOLON.to_string()) {
             self.next_token()
         }
 

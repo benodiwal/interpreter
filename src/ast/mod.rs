@@ -66,3 +66,8 @@ impl Expression for Identifier {
         todo!()
     }
 }
+
+pub struct ReturnStatement {
+    pub token: Token,
+    pub return_value: Option<Box<dyn Expression>>,
+}
