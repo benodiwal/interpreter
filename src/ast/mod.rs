@@ -71,3 +71,15 @@ pub struct ReturnStatement {
     pub token: Token,
     pub return_value: Option<Box<dyn Expression>>,
 }
+
+impl Node for ReturnStatement {
+    fn token_literal(&self) -> String {
+        self.token.Literal.clone()
+    }
+}
+
+impl Statement for ReturnStatement {
+    fn statement_node(&self) {
+        todo!()
+    }
+}

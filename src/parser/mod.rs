@@ -1,7 +1,7 @@
 use core::fmt;
 use std::ops::Deref;
 
-use crate::{ast::{Identifier, LetStatement, Program, Statement}, Lexer, Token, TokenType, ASSIGN, EOF, IDENT, LET, SEMICOLON};
+use crate::{ast::{Identifier, LetStatement, Program, ReturnStatement, Statement}, Lexer, Token, TokenType, ASSIGN, EOF, IDENT, LET, SEMICOLON};
 
 pub struct Parser<'a> {
     l: &'a mut Lexer,
@@ -79,12 +79,35 @@ impl<'a> Parser<'a> {
             return None;
         }
 
+        // Todo: Smth
+
         while !self.expect_peek(SEMICOLON.to_string()) {
-            self.next_token()
+            self.next_token();
         }
 
         Some(stmt)
 
+    }
+
+
+    fn parse_return_statement(&mut self) -> Option<ReturnStatement> {
+        
+        let cur_token = self.cur_token.clone();
+
+        let stmt = ReturnStatement {
+            token: self.cur_token.clone(),
+            return_value: None,           
+        };
+
+        self.next_token();
+
+        // Todo: Smth
+
+        while !self.expect_peek(SEMICOLON.to_string()) {
+            self.next_token();
+        }
+
+        Some(stmt)
     }
 
     fn current_token_is(&self, t: &TokenType) -> bool {
