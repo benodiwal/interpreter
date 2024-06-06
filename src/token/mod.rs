@@ -1,13 +1,12 @@
 use std::collections::HashMap;
-
 pub type TokenType = String;
 
-#[derive(Default, Debug)]
+#[allow(non_snake_case)]
+#[derive(Default, Debug, Clone)]
 pub struct Token {
     pub Type: TokenType,
     pub Literal: String, 
 }
-
 
 pub const ILLEGAL: &str = "ILLEGAL";
 pub const EOF: &str = "EOF";
@@ -61,4 +60,3 @@ lazy_static! {
         map
     };
 }
-

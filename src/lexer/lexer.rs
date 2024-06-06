@@ -7,8 +7,6 @@ pub struct Lexer {
     pub ch: u8, // current char under examination
 }
 
-
-// Adding constructor for Lexer
 impl Lexer {
     pub fn new(input: &str) -> Self {
         let input_string = input.to_string();
@@ -25,7 +23,6 @@ impl Lexer {
     }
 }
 
-// Implementing other functions for the Lexer
 impl Lexer {
 
     pub fn read_char(&mut self) {
@@ -151,11 +148,11 @@ fn new_token(token_type: TokenType, ch: u8) -> Token {
 }
 
 fn is_letter(ch: char) -> bool {
-    'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+    ch.is_ascii_lowercase() || ch.is_ascii_uppercase() || ch == '_'
 }
 
 fn is_digit(ch: char) -> bool {
-    '0' <= ch && ch <= '9'
+    ch.is_ascii_digit()
 }
 
 fn lookup_ident(ident: &str) -> TokenType {
