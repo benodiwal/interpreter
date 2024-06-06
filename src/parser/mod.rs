@@ -1,9 +1,13 @@
+use core::fmt;
+use std::ops::Deref;
+
 use crate::{ast::{Identifier, LetStatement, Program, Statement}, Lexer, Token, TokenType, ASSIGN, EOF, IDENT, LET, SEMICOLON};
 
 pub struct Parser<'a> {
     l: &'a mut Lexer,
     cur_token: Token,
     peek_token: Token,
+    errors: Vec<String>,
 }
     
 impl<'a> Parser<'a> {
@@ -12,6 +16,7 @@ impl<'a> Parser<'a> {
             l,
             cur_token: Token::default(),
             peek_token: Token::default(),
+            errors: Vec::new(),
         };
         
         parser.next_token();
@@ -82,21 +87,31 @@ impl<'a> Parser<'a> {
 
     }
 
-    fn current_token_is(&self, t: TokenType) -> bool {
-        self.cur_token.Type == t
+    fn current_token_is(&self, t: &TokenType) -> bool {
+        self.cur_token.Type == t.deref()
     }
 
-    fn peek_token_is(&self, t: TokenType) -> bool {
-        self.peek_token.Type == t
+    fn peek_token_is(&self, t: &TokenType) -> bool {
+        self.peek_token.Type == t.deref()
     }
 
     fn expect_peek(&mut self, t: TokenType) -> bool {
-        if self.peek_token_is(t) {
+        if self.peek_token_is(&t) {
             self.next_token();
             true
         } else {
+            self.peekError(&t);
             false
         }
+    }
+
+    fn errors(&self) -> Vec<String> {
+        self.errors.clone()
+    }
+
+    fn peekError(&mut self, t: &TokenType){
+        let msg = format!("expected next token to be {}, got {} instead", t, self.peek_token.Type);
+        self.errors.push(msg);
     }
 
 }
