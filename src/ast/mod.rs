@@ -1,21 +1,19 @@
 use crate::Token;
 
-// Trait Node
 pub trait Node {
     fn token_literal(&self) -> String;
 }
 
-// Statement Node
+#[allow(unused)]
 pub trait Statement: Node {
     fn statement_node(&self);
 }
 
-// Expression Node
+#[allow(unused)]
 pub trait Expression: Node {
     fn expression_node(&self);
 }
 
-// Program Struct
 #[derive(Default)]
 pub struct Program {
     pub statements: Vec<Box<dyn Statement>>,
@@ -31,11 +29,12 @@ impl Node for Program {
     }
 }
 
-// LetStatement struct
 pub struct LetStatement {
-    token: Token,
-    name: Identifier,
-    value: Box<dyn Expression>,
+    pub token: Token,
+    #[allow(unused)]
+    pub name: Option<Identifier>,
+    #[allow(unused)]
+    pub value: Option<Box<dyn Expression>>,
 }
 
 impl Node for LetStatement {
@@ -50,10 +49,10 @@ impl Statement for LetStatement {
     }
 }
 
-// Identifier struct
 pub struct Identifier {
-    token: Token,
-    value: String,
+    pub token: Token,
+    #[allow(unused)]
+    pub value: String,
 }
 
 impl Node for Identifier {
